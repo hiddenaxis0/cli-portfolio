@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact, Sidney Franklin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=Jost:wght@300;400&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --cream: #F5F0E8;
@@ -20,14 +23,23 @@
       --warm-grey: #2E2926;
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       background-color: var(--ivory);
       color: var(--charcoal);
       font-family: 'Jost', sans-serif;
-      
+
       overflow-x: hidden;
     }
 
@@ -97,10 +109,21 @@
       transition: width 0.3s ease;
     }
 
-    .nav-links a:hover { color: #C8A84A; }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-links a.active { color: var(--gold); }
-    .nav-links a.active::after { width: 100%; }
+    .nav-links a:hover {
+      color: #C8A84A;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+    }
+
+    .nav-links a.active::after {
+      width: 100%;
+    }
 
     /* HERO */
     .contact-hero {
@@ -120,7 +143,7 @@
       right: -20px;
       font-family: 'Cormorant Garamond', serif;
       font-size: 16rem;
-      
+
       color: rgba(184, 150, 62, 0.05);
       line-height: 1;
       pointer-events: none;
@@ -146,7 +169,7 @@
     .contact-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3rem, 6vw, 5.5rem);
-      
+
       line-height: 1;
       color: var(--cream);
       opacity: 0;
@@ -178,7 +201,7 @@
     .contact-intro {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.3rem;
-      
+
       font-style: italic;
       line-height: 1.65;
       color: var(--charcoal);
@@ -217,7 +240,9 @@
       transition: color 0.3s ease;
     }
 
-    .contact-detail-value:hover { color: var(--burgundy); }
+    .contact-detail-value:hover {
+      color: var(--burgundy);
+    }
 
     .contact-rule {
       width: 40px;
@@ -246,7 +271,7 @@
     .social-link {
       font-family: 'Jost', sans-serif;
       font-size: 0.92rem;
-      
+
       letter-spacing: 0.1em;
       color: var(--warm-grey);
       text-decoration: none;
@@ -278,7 +303,7 @@
     .form-heading {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
-      
+
       color: var(--charcoal);
       margin-bottom: 8px;
     }
@@ -286,7 +311,7 @@
     .form-subheading {
       font-family: 'Jost', sans-serif;
       font-size: 0.8rem;
-      
+
       color: var(--warm-grey);
       margin-bottom: 48px;
       letter-spacing: 0.05em;
@@ -305,7 +330,9 @@
       gap: 8px;
     }
 
-    .form-group.full { grid-column: 1 / -1; }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
 
     .form-label {
       font-family: 'Cinzel', serif;
@@ -354,7 +381,10 @@
       font-style: italic;
     }
 
-    .form-select option { color: var(--charcoal); font-style: normal; }
+    .form-select option {
+      color: var(--charcoal);
+      font-style: normal;
+    }
 
     .form-textarea {
       resize: none;
@@ -365,7 +395,7 @@
     .form-note {
       font-family: 'Jost', sans-serif;
       font-size: 0.72rem;
-      
+
       color: var(--warm-grey);
       margin-bottom: 36px;
       font-style: italic;
@@ -398,7 +428,7 @@
     .form-privacy {
       font-family: 'Jost', sans-serif;
       font-size: 0.7rem;
-      
+
       color: var(--warm-grey);
       font-style: italic;
     }
@@ -410,7 +440,9 @@
       padding: 60px 40px;
     }
 
-    .form-success.visible { display: block; }
+    .form-success.visible {
+      display: block;
+    }
 
     .success-icon {
       font-size: 2rem;
@@ -420,7 +452,7 @@
     .success-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 2rem;
-      
+
       font-style: italic;
       color: var(--charcoal);
       margin-bottom: 16px;
@@ -429,7 +461,7 @@
     .success-body {
       font-family: 'Jost', sans-serif;
       font-size: 0.85rem;
-      
+
       color: var(--warm-grey);
       line-height: 1.8;
     }
@@ -488,7 +520,7 @@
     .footer-copy {
       font-family: 'Jost', sans-serif;
       font-size: 0.7rem;
-      
+
       color: var(--warm-grey);
       letter-spacing: 0.1em;
     }
@@ -509,22 +541,61 @@
       transition: color 0.3s ease;
     }
 
-    .footer-links a:hover { color: var(--gold); }
+    .footer-links a:hover {
+      color: var(--gold);
+    }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 1024px) {
-      nav { padding: 20px 32px; }
-      .contact-hero { padding: 120px 40px 60px; }
-      .contact-main { grid-template-columns: 1fr; }
-      .contact-left { padding: 60px 40px; border-right: none; border-bottom: 1px solid var(--gold-pale); }
-      .contact-right { padding: 60px 40px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .representation { flex-direction: column; gap: 24px; padding: 48px 40px; }
-      footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px; }
+      nav {
+        padding: 20px 32px;
+      }
+
+      .contact-hero {
+        padding: 120px 40px 60px;
+      }
+
+      .contact-main {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-left {
+        padding: 60px 40px;
+        border-right: none;
+        border-bottom: 1px solid var(--gold-pale);
+      }
+
+      .contact-right {
+        padding: 60px 40px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .representation {
+        flex-direction: column;
+        gap: 24px;
+        padding: 48px 40px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+        padding: 40px;
+      }
     }
 
     /* ═══════════════════════════════
@@ -540,6 +611,7 @@
       border: none;
       z-index: 200;
     }
+
     .hamburger span {
       display: block;
       width: 24px;
@@ -548,9 +620,18 @@
       transition: all 0.3s ease;
       transform-origin: center;
     }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     .mobile-menu {
       display: none;
@@ -566,7 +647,11 @@
       justify-content: center;
       gap: 36px;
     }
-    .mobile-menu.open { display: flex; }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
     .mobile-menu a {
       font-family: 'Cinzel', serif;
       font-size: 1.4rem;
@@ -576,7 +661,11 @@
       text-decoration: none;
       transition: color 0.3s;
     }
-    .mobile-menu a:hover { color: #C8A84A; }
+
+    .mobile-menu a:hover {
+      color: #C8A84A;
+    }
+
     .mobile-menu-rule {
       width: 40px;
       height: 1px;
@@ -584,16 +673,25 @@
     }
 
     @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      .nav-links { display: none; }
-      nav { padding: 16px 24px; }
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      nav {
+        padding: 16px 24px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- NAV -->
-  
+
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
     <a href="index.html" onclick="closeMenu()">Home</a>
@@ -616,11 +714,11 @@
       <li><a href="reels.html">Reels</a></li>
       <li><a href="contact.html" class="active">Contact</a></li>
     </ul>
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
 
   <!-- HERO -->
@@ -651,7 +749,8 @@
           <p class="contact-social-label">Follow the Work</p>
           <a href="https://www.instagram.com/sidneyfranklin" target="_blank" class="social-link">Instagram</a>
           <a href="https://vimeo.com/sidneyfranklin" target="_blank" class="social-link">Vimeo</a>
-          <a href="https://www.imdb.com/name/nm1332413/?ref_=ext_shr_lnk/" target="_blank" class="social-link" target="_blank">IMDb</a>
+          <a href="https://www.imdb.com/name/nm1332413/?ref_=ext_shr_lnk/" target="_blank" class="social-link"
+            target="_blank">IMDb</a>
         </div>
       </div>
     </div>
@@ -666,23 +765,29 @@
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label" for="first-name">First Name</label>
-              <input class="form-input" type="text" id="first-name" name="first_name" placeholder="Your first name" required>
+              <input class="form-input" type="text" id="first-name" name="first_name" placeholder="Your first name"
+                required>
             </div>
+
             <div class="form-group">
               <label class="form-label" for="last-name">Last Name</label>
-              <input class="form-input" type="text" id="last-name" name="last_name" placeholder="Your last name" required>
+              <input class="form-input" type="text" id="last-name" name="last_name" placeholder="Your last name"
+                required>
             </div>
+
             <div class="form-group">
               <label class="form-label" for="email">Email</label>
               <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required>
             </div>
+
             <div class="form-group">
               <label class="form-label" for="phone">Phone (optional)</label>
               <input class="form-input" type="tel" id="phone" name="phone" placeholder="Your phone number">
             </div>
+
             <div class="form-group full">
               <label class="form-label" for="inquiry-type">Nature of Inquiry</label>
-              <select class="form-select" id="inquiry-type" name="inquiry_type">
+              <select class="form-select" id="inquiry-type" name="inquiry_type" required>
                 <option value="" disabled selected>Select one...</option>
                 <option value="casting">Casting Inquiry</option>
                 <option value="production">Production Collaboration</option>
@@ -691,13 +796,17 @@
                 <option value="general">General Inquiry</option>
               </select>
             </div>
+
             <div class="form-group full">
               <label class="form-label" for="project">Project or Production (if applicable)</label>
-              <input class="form-input" type="text" id="project" name="project" placeholder="Project name, production, or company">
+              <input class="form-input" type="text" id="project" name="project"
+                placeholder="Project name, production, or company">
             </div>
+
             <div class="form-group full">
               <label class="form-label" for="message">Message</label>
-              <textarea class="form-textarea" id="message" name="message" placeholder="Tell me about your project or inquiry..." required></textarea>
+              <textarea class="form-textarea" id="message" name="message"
+                placeholder="Tell me about your project or inquiry..." required></textarea>
             </div>
           </div>
 
@@ -710,7 +819,8 @@
         <div class="form-success" id="form-success">
           <div class="success-icon">✦</div>
           <h3 class="success-title">Message Received</h3>
-          <p class="success-body">Thank you for reaching out. I'll be in touch within 48 hours.<br>Looking forward to the conversation.</p>
+          <p class="success-body">Thank you for reaching out. I'll be in touch within 48 hours.<br>Looking forward to
+            the conversation.</p>
         </div>
       </div>
     </div>
@@ -720,7 +830,11 @@
   <div class="representation">
     <span class="rep-label">A Note on Representation</span>
     <div class="rep-rule"></div>
-    <p class="rep-note">For representation inquiries, please contact <a href="https://www.momentumtalent.com/" target="_blank" style="color:var(--gold-light);text-decoration:none;">Momentum Talent Agency</a> or <a href="https://www.shamonfreitas.com/" target="_blank" style="color:var(--gold-light);text-decoration:none;">Shamon Freitas & Associates</a>. For all other inquiries, use the form above.</p>
+    <p class="rep-note">For representation inquiries, please contact <a href="https://www.momentumtalent.com/"
+        target="_blank" style="color:var(--gold-light);text-decoration:none;">Momentum Talent Agency</a> or <a
+        href="https://www.shamonfreitas.com/" target="_blank"
+        style="color:var(--gold-light);text-decoration:none;">Shamon Freitas & Associates</a>. For all other inquiries,
+      use the form above.</p>
   </div>
 
   <!-- FOOTER -->
@@ -752,15 +866,17 @@
           method: 'POST',
           body: formData
         });
+        alert('Response status: ' + response.status); // Debugging line
         const result = await response.text();
+        alert('Result: ' + result); // Debugging line
 
-        if (result.trim() === 'success') {
+        if (result === 'success') {
           form.style.display = 'none';
           success.classList.add('visible');
         } else {
           btn.textContent = 'Send Message';
           btn.disabled = false;
-          alert('Something went wrong. Please try again or email directly.');
+          alert('Message not sent. Something went wrong. Please try again or email directly.');
         }
       } catch (error) {
         btn.textContent = 'Send Message';
@@ -790,4 +906,5 @@
   </script>
 
 </body>
+
 </html>

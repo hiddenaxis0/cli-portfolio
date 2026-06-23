@@ -1,5 +1,17 @@
 {
-  "require": {
-    "phpmailer/phpmailer": "^6.8"
-  }
+    "name": "firstar/up-cli-portfolio",
+    "autoload": {
+        "psr-4": {
+            "Firstar\\UpCliPortfolio\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hidden Axis",
+            "email": "miguelmontanez.busines@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^7.1"
+    }
 }

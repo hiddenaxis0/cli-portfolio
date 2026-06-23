@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $first_name   = trim(strip_tags($_POST["first_name"] ?? ""));
 $last_name    = trim(strip_tags($_POST["last_name"] ?? ""));
-$email        = trim($_POST["email"] ?? "");
+$email   = trim($_POST["email"] ?? "");
 $phone        = trim(strip_tags($_POST["phone"] ?? ""));
 $inquiry_type = trim(strip_tags($_POST["inquiry_type"] ?? ""));
 $project      = trim(strip_tags($_POST["project"] ?? ""));
@@ -60,48 +60,62 @@ $body .= "\n" . str_repeat("—", 50) . "\n\n";
 $body .= "Message:\n\n$message\n";
 
 // ============================================================================
-// SEND EMAIL with PHPMailer via SMTP
+// EMAIL HEADERS
 // ============================================================================
 
-$autoload = __DIR__ . '/vendor/autoload.php';
-if (!file_exists($autoload)) {
-    exit('error! autoload.php not found. Please run "composer install" to install PHPMailer.');
-}
+$headers = "From: $from_email\r\n";
+$headers .= "Reply-To: $email\r\n";
+$headers .= "Return-Path: $from_email\r\n";
+$headers .= "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-require_once $autoload;
-
-if (!class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
-    exit('error! PHPMailer class not found. Please check your Composer installation.');
-}
+// ============================================================================
+// SEND EMAIL (PHPMailer if available)
+// ============================================================================
 
 $mail_sent = false;
-try {
-    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+$mail_method = 'none';
+$autoload = __DIR__ . '/vendor/autoload.php';
+if (file_exists($autoload)) {
+    require_once $autoload;
+}
 
-    $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'miguelmontanez.busines@gmail.com';
-    $mail->Password = 'yksu uurc sgkv atdj';
-    $mail->SMTPSecure = 'tls';
-    $mail->Port = 587;
+if (class_exists('\\PHPMailer\\PHPMailer\\PHPMailer')) {
+    $mail_method = 'phpmailer';
+    try {
+        $phpmail = new \\PHPMailer\\PHPMailer\\PHPMailer(true);
 
-    $from_address = $email;
-    $from_name = $name ?: 'Website visitor';
-    $mail->setFrom($from_address, $from_name);
-    $mail->addAddress($to_email);
-    $mail->addReplyTo($email, $name ?: 'Website visitor');
+        $smtp_enabled = getenv('SMTP_ENABLED') === '1' || getenv('SMTP_HOST');
+        if ($smtp_enabled) {
+            $phpmail->isSMTP();
+            $phpmail->Host = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
+            $phpmail->SMTPAuth = true;
+            $phpmail->Username = getenv('SMTP_USER') ?: getenv('SMTP_USERNAME');
+            $phpmail->Password = getenv('SMTP_PASS') ?: getenv('SMTP_PASSWORD');
+            $phpmail->SMTPSecure = getenv('SMTP_SECURE') ?: 'tls';
+            $phpmail->Port = (int)(getenv('SMTP_PORT') ?: 587);
+        }
 
-    $mail->Subject = $subject;
-    $mail->Body = $body;
-    $mail->isHTML(false);
+        $from = getenv('SMTP_FROM') ?: $from_email;
+        $from_name = getenv('SMTP_FROM_NAME') ?: 'Contact Form';
+        $phpmail->setFrom($from, $from_name);
+        $phpmail->addAddress($to_email);
+        $phpmail->Subject = $subject;
+        $phpmail->Body = $body;
+        $phpmail->isHTML(false);
 
-    $mail_sent = (bool) $mail->send();
-} catch (\Exception $e) {
-    if (!is_dir(__DIR__ . '/messages')) {
-        @mkdir(__DIR__ . '/messages', 0755, true);
+        $mail_sent = (bool)$phpmail->send();
+    } catch (Exception $e) {
+        // write exception to file for diagnosis
+        if (!is_dir(__DIR__ . '/messages')) @mkdir(__DIR__ . '/messages', 0755, true);
+        @file_put_contents(__DIR__ . '/messages/phpmailer_error.log', date('c') . " " . $e->getMessage() . PHP_EOL, FILE_APPEND | LOCK_EX);
+        $mail_sent = false;
     }
-    @file_put_contents(__DIR__ . '/messages/phpmailer_error.log', date('c') . ' ' . $e->getMessage() . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
+
+if (!$mail_sent) {
+    $mail_method = $mail_method === 'none' ? 'mail' : $mail_method . '+mail_fallback';
+    $mail_sent = mail($to_email, $subject, $body, $headers);
 }
 
 // ============================================================================
@@ -124,7 +138,8 @@ $log_entry = json_encode([
     "project"     => $project,
     "message"     => $message,
     "mail_sent"   => $mail_sent,
-    "from_email"  => $from_email
+    "from_email"  => $from_email,
+    "method"      => $mail_method
 ], JSON_UNESCAPED_UNICODE) . "\n";
 
 @file_put_contents($log_file, $log_entry, FILE_APPEND | LOCK_EX);
