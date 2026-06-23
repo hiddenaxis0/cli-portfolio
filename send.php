@@ -33,7 +33,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= "Reply-To: $email\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
-    if (mail($to, $subject, $body, $headers)) {
+    // Try to send email. If mail() fails (no mail transport configured),
+    // fall back to logging the message to disk so messages aren't lost.
+    $mail_sent = false;
+    if (function_exists('mail')) {
+        $mail_sent = @mail($to, $subject, $body, $headers);
+    }
+
+    $payload = [
+        'timestamp' => date('c'),
+        'ip'        => $_SERVER['REMOTE_ADDR'] ?? null,
+        'ua'        => $_SERVER['HTTP_USER_AGENT'] ?? null,
+        'name'      => $name,
+        'email'     => $email,
+        'phone'     => $phone,
+        'inquiry'   => $inquiry_type,
+        'project'   => $project,
+        'message'   => $message,
+    ];
+
+    $saved = false;
+    $storageDir = __DIR__ . DIRECTORY_SEPARATOR . 'messages';
+    if (!is_dir($storageDir)) {
+        @mkdir($storageDir, 0755, true);
+    }
+    $logFile = $storageDir . DIRECTORY_SEPARATOR . 'messages.jsonl';
+    $line = json_encode($payload, JSON_UNESCAPED_UNICODE) . "\n";
+    $saved = @file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX) !== false;
+
+    // If either mail was sent or the message was saved to disk, report success.
+    if ($mail_sent || $saved) {
         echo "success";
     } else {
         echo "error";
