@@ -33,10 +33,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= "Reply-To: $email\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
-    // Try to send email. If mail() fails (no mail transport configured),
-    // fall back to logging the message to disk so messages aren't lost.
+    // Use SMTP if configured. Otherwise fall back to PHP mail() and disk logging.
     $mail_sent = false;
-    if (function_exists('mail')) {
+    $smtp_host = getenv('SMTP_HOST');
+    $mail_to = getenv('MAIL_TO') ?: $to;
+    $mail_from = getenv('MAIL_FROM') ?: 'noreply@sidneyfranklin.com';
+    $mail_from_name = getenv('MAIL_FROM_NAME') ?: 'Sidney Franklin';
+
+    if ($smtp_host && file_exists(__DIR__ . '/vendor/autoload.php')) {
+        require_once __DIR__ . '/vendor/autoload.php';
+
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host       = $smtp_host;
+            $mail->SMTPAuth   = true;
+            $mail->Username   = getenv('SMTP_USER') ?: '';
+            $mail->Password   = getenv('SMTP_PASS') ?: '';
+            $smtp_secure      = strtolower(getenv('SMTP_ENCRYPTION') ?: 'tls');
+            if ($smtp_secure === 'ssl') {
+                $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+            } else {
+                $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            }
+            $mail->Port       = getenv('SMTP_PORT') ? (int) getenv('SMTP_PORT') : 587;
+            $mail->setFrom($mail_from, $mail_from_name);
+            $mail->addAddress($mail_to);
+            $mail->addReplyTo($email, $name);
+            $mail->Subject = $subject;
+            $mail->Body    = $body;
+            $mail->AltBody = strip_tags($body);
+            $mail_sent    = $mail->send();
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            $mail_sent = false;
+        }
+    } elseif (function_exists('mail')) {
         $mail_sent = @mail($to, $subject, $body, $headers);
     }
 
