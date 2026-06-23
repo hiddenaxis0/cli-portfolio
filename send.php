@@ -19,7 +19,7 @@ if (!$first_name || !$last_name || !$message || !filter_var($email, FILTER_VALID
     exit("error");
 }
 
-$to = "contact@sidneyfranklin.org";
+$to = "miguelmontanez.busines@gmail.com";
 $subject = "New Inquiry" . ($inquiry_type ? " — $inquiry_type" : "");
 
 $body =
