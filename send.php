@@ -33,12 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= "Reply-To: $email\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
-    // Use SMTP if configured. Otherwise fall back to PHP mail() and disk logging.
+    // Use SMTP if configured. Otherwise fall back to PHP mail() only if sendmail is present.
     $mail_sent = false;
+    $mail_method = 'none';
     $smtp_host = getenv('SMTP_HOST');
     $mail_to = getenv('MAIL_TO') ?: $to;
     $mail_from = getenv('MAIL_FROM') ?: 'noreply@sidneyfranklin.com';
     $mail_from_name = getenv('MAIL_FROM_NAME') ?: 'Sidney Franklin';
+    $sendmail_path = trim(ini_get('sendmail_path'));
+    $sendmail_binary = preg_split('/\s+/', $sendmail_path)[0] ?? '';
+    $sendmail_available = $sendmail_binary !== '' && is_executable($sendmail_binary);
 
     if ($smtp_host && file_exists(__DIR__ . '/vendor/autoload.php')) {
         require_once __DIR__ . '/vendor/autoload.php';
@@ -64,17 +68,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Body    = $body;
             $mail->AltBody = strip_tags($body);
             $mail_sent    = $mail->send();
+            $mail_method  = 'smtp';
         } catch (\PHPMailer\PHPMailer\Exception $e) {
+            error_log('SMTP mail failed: ' . $e->getMessage());
             $mail_sent = false;
+            $mail_method = 'smtp_error';
         }
-    } elseif (function_exists('mail')) {
+    } elseif (function_exists('mail') && $sendmail_available) {
         $mail_sent = @mail($to, $subject, $body, $headers);
+        $mail_method = 'sendmail';
+        if (!$mail_sent) {
+            error_log('PHP mail() failed using sendmail path: ' . $sendmail_path);
+        }
+    } else {
+        $mail_method = 'none';
+        error_log('No mail transport available. SMTP_HOST=' . ($smtp_host ?: 'none') . ', sendmail_path=' . $sendmail_path);
     }
 
     $payload = [
         'timestamp' => date('c'),
         'ip'        => $_SERVER['REMOTE_ADDR'] ?? null,
         'ua'        => $_SERVER['HTTP_USER_AGENT'] ?? null,
+        'mail_method' => $mail_method,
         'name'      => $name,
         'email'     => $email,
         'phone'     => $phone,
